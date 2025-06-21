@@ -1,6 +1,6 @@
 {
   "bot-account": {
-    "username": "AFKBot",
+    "username": "Flores",
     "password": "",
     "type": "offline"
   },
@@ -8,7 +8,7 @@
   "server": {
     "ip": "XalXise.aternos.me",
     "port": 33488,
-    "version": "1.19.3"
+    "version": "1.12.1"
   },
 
   "position": {
