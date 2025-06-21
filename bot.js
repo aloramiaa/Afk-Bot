@@ -153,9 +153,22 @@ function createBot() {
    }
 
    bot.on('kicked', (reason) => {
-      let reasonText = JSON.parse(reason).text;
-      if(reasonText === '') {
-         reasonText = JSON.parse(reason).extra[0].text
+      let reasonText = 'Could not parse kick reason.';
+      try {
+        const parsedReason = JSON.parse(reason);
+        if (parsedReason.text) {
+            reasonText = parsedReason.text;
+        } else if (parsedReason.extra && parsedReason.extra.length > 0) {
+            reasonText = parsedReason.extra.map(p => p.text).join('');
+        } else {
+            reasonText = reason;
+        }
+      } catch (e) {
+        reasonText = reason;
+      }
+
+      if(typeof reasonText !== 'string'){
+        reasonText = String(reasonText);
       }
       reasonText = reasonText.replace(/§./g, '');
 
@@ -164,7 +177,7 @@ function createBot() {
    );
 
    bot.on('error', (err) =>
-      logger.error(`${err.message}`)
+      logger.error(err)
    );
 }
 
