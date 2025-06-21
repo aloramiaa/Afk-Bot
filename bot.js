@@ -8,6 +8,18 @@ const config = require('./settings.json');
 const loggers = require('./logging.js');
 const logger = loggers.logger;
 
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.get('/', (req, res) => {
+   res.send('Bot is running!');
+});
+
+app.listen(port, () => {
+   console.log(`Server listening on port ${port}`);
+});
+
 function createBot() {
    const bot = mineflayer.createBot({
       username: config['bot-account']['username'],

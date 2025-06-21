@@ -9,6 +9,7 @@
   "author": "urFate",
   "license": "MIT",
   "dependencies": {
+    "express": "^5.1.0",
     "log4js": "^6.7.1",
     "minecraft-data": "^3.27.0",
     "mineflayer": "^4.8.1",
