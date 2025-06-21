@@ -1,13 +1,13 @@
 {
   "bot-account": {
-    "username": "bot",
-    "password": "your_password",
-    "type": "microsoft"
+    "username": "AFKBot",
+    "password": "",
+    "type": "offline"
   },
 
   "server": {
-    "ip": "localhost",
-    "port": 25565,
+    "ip": "XalXise.aternos.me",
+    "port": 33488,
     "version": "1.19.3"
   },
 
@@ -20,43 +20,42 @@
 
   "utils": {
     "auto-auth": {
-      "enabled": false,
+      "enabled": true,
       "password": "12345678"
     },
 
     "anti-afk": {
-      "enabled": false,
-      "sneak": false,
-      "jump": false,
-      "rotate": false,
+      "enabled": true,
+      "sneak": true,
+      "jump": true,
+      "rotate": true,
 
       "hit": {
-        "enabled": false,
-        "delay": 1000,
+        "enabled": true,
+        "delay": 10000,
         "attack-mobs": false
       },
 
       "circle-walk": {
-        "enabled": false,
+        "enabled": true,
         "radius": 2
       }
     },
 
     "chat-messages": {
-      "enabled": false,
+      "enabled": true,
       "repeat": true,
-      "repeat-delay": 60,
-
+      "repeat-delay": 120,
       "messages": [
-        "I'm a regular player ",
-        "My owner is urFate_ ",
-        "I want be alone ",
-        "Visit my GitHub page! (urFate/Afk-Bot)"
+        "I'm just chilling here 😎",
+        "AFKBot reporting in!",
+        "Running stable... owned by urFate_",
+        "Check out urFate_/Afk-Bot on GitHub!"
       ]
     },
 
     "chat-log": true,
-    "auto-reconnect": false,
+    "auto-reconnect": true,
     "auto-reconnect-delay": 5000
   }
 }
