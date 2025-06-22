@@ -20,7 +20,10 @@ app.listen(port, () => {
    console.log(`Server listening on port ${port}`);
 });
 
+let isReconnecting = false;
+
 function createBot() {
+   isReconnecting = false;
    const bot = mineflayer.createBot({
       username: config['bot-account']['username'],
       password: config['bot-account']['password'],
@@ -122,19 +125,17 @@ function createBot() {
             circleWalk(bot, radius);
          }
       }
+
+      if (config.position.enabled) {
+         logger.info(
+             `Bot arrived to target location. ${bot.entity.position}`
+         );
+      }
    });
 
    bot.on('chat', (username, message) => {
       if (config.utils['chat-log']) {
          logger.info(`<${username}> ${message}`);
-      }
-   });
-
-   bot.on('goal_reached', () => {
-      if(config.position.enabled) {
-         logger.info(
-             `Bot arrived to target location. ${bot.entity.position}`
-         );
       }
    });
 
@@ -144,13 +145,16 @@ function createBot() {
       );
    });
 
-   if (config.utils['auto-reconnect']) {
-      bot.on('end', () => {
-         setTimeout(() => {
-            createBot();
-         }, config.utils['auto-reconnect-delay']);
-      });
-   }
+   const handleDisconnect = () => {
+      if (isReconnecting || !config.utils['auto-reconnect']) return;
+      isReconnecting = true;
+      setTimeout(createBot, config.utils['auto-reconnect-delay']);
+   };
+
+   bot.on('end', () => {
+      logger.warn(`Bot has disconnected. Reconnecting in ${config.utils['auto-reconnect-delay'] / 1000} seconds...`);
+      handleDisconnect();
+   });
 
    bot.on('kicked', (reason) => {
       let reasonText = 'Could not parse kick reason.';
@@ -172,13 +176,14 @@ function createBot() {
       }
       reasonText = reasonText.replace(/§./g, '');
 
-      logger.warn(`Bot was kicked from the server. Reason: ${reasonText}`)
-   }
-   );
+      logger.warn(`Bot was kicked from the server. Reason: ${reasonText}`);
+      handleDisconnect();
+   });
 
-   bot.on('error', (err) =>
-      logger.error(err)
-   );
+   bot.on('error', (err) => {
+      logger.error(err);
+      handleDisconnect();
+   });
 }
 
 function circleWalk(bot, radius) {
