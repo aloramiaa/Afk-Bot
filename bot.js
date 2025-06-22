@@ -22,6 +22,18 @@ app.listen(port, () => {
 
 let isReconnecting = false;
 
+const handleDisconnect = () => {
+   if (isReconnecting || !config.utils['auto-reconnect']) return;
+   isReconnecting = true;
+   setTimeout(createBot, config.utils['auto-reconnect-delay']);
+};
+
+process.on('uncaughtException', (err) => {
+   logger.error('Unhandled Exception:', err);
+   logger.warn(`Bot is restarting due to an uncaught exception...`);
+   handleDisconnect();
+});
+
 function createBot() {
    isReconnecting = false;
    const bot = mineflayer.createBot({
@@ -145,12 +157,6 @@ function createBot() {
          `Bot has been died and was respawned at ${bot.entity.position}`
       );
    });
-
-   const handleDisconnect = () => {
-      if (isReconnecting || !config.utils['auto-reconnect']) return;
-      isReconnecting = true;
-      setTimeout(createBot, config.utils['auto-reconnect-delay']);
-   };
 
    bot.on('end', () => {
       logger.warn(`Bot has disconnected. Reconnecting in ${config.utils['auto-reconnect-delay'] / 1000} seconds...`);
