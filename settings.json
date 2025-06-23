@@ -55,9 +55,9 @@
       "rotate": true,
 
       "hit": {
-        "enabled": true,
+        "enabled": false,
         "delay": 10000,
-        "attack-mobs": true
+        "attack-mobs": false
       },
 
       "circle-walk": {
