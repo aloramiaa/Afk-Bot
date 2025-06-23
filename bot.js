@@ -186,7 +186,7 @@ function createBot() {
 
       logger.warn(`Bot was kicked from the server. Reason: ${reasonText}`);
       
-      if (reasonText.includes('You have been idle for too long')) {
+      if (reasonText.includes('You have been idle for too long') || reasonText.includes('Someone with your name is already online')) {
          currentUsernameIndex++;
          if (currentUsernameIndex >= config['bot-account']['usernames'].length) {
             currentUsernameIndex = 0;
