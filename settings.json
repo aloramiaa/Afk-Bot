@@ -70,21 +70,20 @@
       "enabled": true,
       "repeat": true,
       "repeat-delay": 120,
-     "messages": [
-        "⚔️ Standing guard in XalXise Realm!",
-        "💤 AFK but my spirit watches over the realm...",
-        "🌌 Channeling ender energy... brb!",
-        "👁️ Watching creepers from the shadows...",
-        "📜 Adventure awaits! I'm just... taking a break 💤",
-        "💾 Realm logs saved... no mobs sneak past me!",
-        "🌿 Resting under the pixelated stars of XalXise 🌠",
-        "🧭 Lost? Ask the bot. I might just answer... maybe 😏",
-        "💡 Tip: Always /sethome before exploring the Nether!",
-        "👑 Realm ruled by adventurers, protected by code 🛡️",
-        "🧱 If I'm still here, the world hasn't crashed 👀",
-        "🔗 Have Fun At XalXise Realm!"
+      "messages": [
+        "💡 Tip: Never dig straight down! You might fall into lava.",
+        "💡 Tip: Always light up your base with torches to prevent hostile mobs from spawning.",
+        "💡 Tip: Keep a bucket of water in your hotbar to save yourself from fall damage or fire.",
+        "💡 Tip: To find diamonds, mine at Y-level -58.",
+        "💡 Tip: Sleep in a bed to set your spawn point and skip the night.",
+        "💡 Tip: Build a shield to block attacks from skeletons and other mobs.",
+        "💡 Tip: Create an infinite water source with a 2x2 hole and two buckets of water.",
+        "💡 Tip: Trade with villagers to get valuable items like enchanted books and diamond gear.",
+        "💡 Tip: Build a portal to the Nether to travel long distances in the Overworld quickly.",
+        "💡 Tip: Strip-mining is a safe and effective way to find ores.",
+        "💡 Tip: Tame a wolf to have a loyal companion that will fight for you.",
+        "💡 Tip: Build a small farm early on for a sustainable food source."
       ]
-
     },
 
     "chat-log": true,
