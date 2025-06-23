@@ -1,6 +1,30 @@
 {
   "bot-account": {
-    "username": "XalXiseRPG",
+    "usernames": [
+      "XalXiseRPG",
+      "XalXiseAFK1",
+      "XalXiseAFK2",
+      "XalXiseAFK3",
+      "XalXiseAFK4",
+      "XalXiseAFK5",
+      "XalXiseAFK6",
+      "XalXiseAFK7",
+      "XalXiseAFK8",
+      "XalXiseAFK9",
+      "XalXiseAFK10",
+      "XalXiseAFK11",
+      "XalXiseAFK12",
+      "XalXiseAFK13",
+      "XalXiseAFK14",
+      "XalXiseAFK15",
+      "XalXiseAFK16",
+      "XalXiseAFK17",
+      "XalXiseAFK18",
+      "XalXiseAFK19",
+      "XalXiseAFK20",
+      "XalXiseAFK21",
+      "XalXiseAFK22"
+    ],
     "password": "",
     "type": "offline"
   },
@@ -57,7 +81,7 @@
         "🧭 Lost? Ask the bot. I might just answer... maybe 😏",
         "💡 Tip: Always /sethome before exploring the Nether!",
         "👑 Realm ruled by adventurers, protected by code 🛡️",
-        "🧱 If I'm still here, the world hasn’t crashed 👀",
+        "🧱 If I'm still here, the world hasn't crashed 👀",
         "🔗 Have Fun At XalXise Realm!"
       ]
 

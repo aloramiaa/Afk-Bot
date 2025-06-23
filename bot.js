@@ -21,6 +21,7 @@ app.listen(port, () => {
 });
 
 let isReconnecting = false;
+let currentUsernameIndex = 0;
 
 const handleDisconnect = () => {
    if (isReconnecting || !config.utils['auto-reconnect']) return;
@@ -37,7 +38,7 @@ process.on('uncaughtException', (err) => {
 function createBot() {
    isReconnecting = false;
    const bot = mineflayer.createBot({
-      username: config['bot-account']['username'],
+      username: config['bot-account']['usernames'][currentUsernameIndex],
       password: config['bot-account']['password'],
       auth: config['bot-account']['type'],
       host: config.server.ip,
@@ -184,6 +185,15 @@ function createBot() {
       reasonText = reasonText.replace(/§./g, '');
 
       logger.warn(`Bot was kicked from the server. Reason: ${reasonText}`);
+      
+      if (reasonText.includes('You have been idle for too long')) {
+         currentUsernameIndex++;
+         if (currentUsernameIndex >= config['bot-account']['usernames'].length) {
+            currentUsernameIndex = 0;
+         }
+         logger.info(`Switching to next username: ${config['bot-account']['usernames'][currentUsernameIndex]}`);
+      }
+
       handleDisconnect();
    });
 
