@@ -16,12 +16,23 @@ app.get('/', (req, res) => {
    res.send('Bot is running!');
 });
 
-app.listen(port, () => {
-   console.log(`Server listening on port ${port}`);
+const server = app.listen(port, () => {
+   logger.info(`Server listening on port ${port}`);
+   createBot();
+});
+
+server.on('error', (err) => {
+   if (err.code === 'EADDRINUSE') {
+      logger.error(`Port ${port} is already in use. Another instance of the bot may be running.`);
+      process.exit(1);
+   } else {
+      logger.error('An unexpected error occurred with the web server:', err);
+   }
 });
 
 let isReconnecting = false;
 let currentUsernameIndex = 0;
+let activeIntervals = [];
 
 const handleDisconnect = () => {
    if (isReconnecting || !config.utils['auto-reconnect']) return;
@@ -37,6 +48,12 @@ process.on('uncaughtException', (err) => {
 
 function createBot() {
    isReconnecting = false;
+
+   const trackInterval = (callback, delay) => {
+      const id = setInterval(callback, delay);
+      activeIntervals.push(id);
+   };
+
    const bot = mineflayer.createBot({
       username: config['bot-account']['usernames'][currentUsernameIndex],
       password: config['bot-account']['password'],
@@ -77,7 +94,7 @@ function createBot() {
             let delay = config.utils['chat-messages']['repeat-delay'];
             let i = 0;
 
-            setInterval(() => {
+            trackInterval(() => {
                bot.chat(`${messages[i]}`);
 
                if (i + 1 === messages.length) {
@@ -113,7 +130,7 @@ function createBot() {
             let delay = config.utils['anti-afk']['hit']['delay'];
             let attackMobs = config.utils['anti-afk']['hit']['attack-mobs']
 
-            setInterval(() => {
+            trackInterval(() => {
                if(attackMobs) {
                      let entity = bot.nearestEntity(e => e.type !== 'object' && e.type !== 'player'
                          && e.type !== 'global' && e.type !== 'orb' && e.type !== 'other');
@@ -129,14 +146,14 @@ function createBot() {
          }
 
          if (config.utils['anti-afk'].rotate) {
-            setInterval(() => {
+            trackInterval(() => {
                bot.look(bot.entity.yaw + 1, bot.entity.pitch, true);
             }, 100);
          }
 
          if (config.utils['anti-afk']['circle-walk'].enabled) {
             let radius = config.utils['anti-afk']['circle-walk']['radius']
-            circleWalk(bot, radius);
+            circleWalk(bot, radius, trackInterval);
          }
       }
 
@@ -160,6 +177,8 @@ function createBot() {
    });
 
    bot.on('end', () => {
+      activeIntervals.forEach(clearInterval);
+      activeIntervals = [];
       logger.warn(`Bot has disconnected. Reconnecting in ${config.utils['auto-reconnect-delay'] / 1000} seconds...`);
       handleDisconnect();
    });
@@ -203,7 +222,7 @@ function createBot() {
    });
 }
 
-function circleWalk(bot, radius) {
+function circleWalk(bot, radius, trackInterval) {
    // Make bot walk in square with center in bot's  wthout stopping
     return new Promise(() => {
         const pos = bot.entity.position;
@@ -219,7 +238,7 @@ function circleWalk(bot, radius) {
         ];
 
         let i = 0;
-        setInterval(() => {
+        trackInterval(() => {
              if(i === points.length) i = 0;
              bot.pathfinder.setGoal(new GoalXZ(points[i][0], points[i][2]));
              i++;
@@ -227,4 +246,4 @@ function circleWalk(bot, radius) {
     });
 }
 
-createBot();
+// createBot();
